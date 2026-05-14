@@ -25,7 +25,7 @@ e as regras técnicas para geração de JSON importável.
 | `references/manychat-mcp.md` | MCP disponível OU usuário perguntar sobre instalação OU for gerar JSON com IDs |
 | `references/sun-personality.md` | Usuário é o Triwer/Sun OU não há personalidade configurada no user-profile |
 | `references/patterns-venda.md` | O objetivo for venda direta |
-| `references/patterns-captacao.md` | O objetivo for captação, lista, grupo VIP ou evento |
+| `references/patterns-captacao.md` | O objetivo for captação, lista, grupo VIP, evento — ou quando precisar definir a estrutura do fluxo por tipo de isca |
 | `references/copy-rules.md` | For escrever mensagens (após definir o framework) |
 | `references/json-format.md` | O output solicitado for JSON |
 
@@ -134,13 +134,35 @@ Perguntar antes de criar qualquer fluxo:
 
 ---
 
-## Etapa 2 — Verificar Coerência Temática
+## Etapa 2 — Verificar Coerência Temática e Apresentação da Isca
 
-Antes de criar, confirmar:
+Antes de criar, confirmar os dois pontos abaixo. Os dois têm impacto direto no volume de acionamentos e na taxa de botão.
+
+### 2.1 — Coerência temática
 
 > O tema do post que vai gerar o comentário é o mesmo tema que o fluxo vai trabalhar?
 
 Se não houver coerência clara, alertar e sugerir ajuste. Coerência temática é o principal fator de performance — supera segmentação e arquitetura complexa.
+
+### 2.2 — Como a isca está sendo apresentada no post
+
+O volume de acionamentos não é decidido pela isca — é decidido pelo que acontece no post antes do direct. Verificar com o usuário se o post segue estes 4 pontos:
+
+**1. O post mostrou o problema antes de nomear a isca?**
+A narrativa deve criar identificação com a dor ou situação antes de oferecer qualquer recurso. Se o post já começa com "comenta X para receber Y", o contexto emocional não foi construído.
+
+**2. A isca foi apresentada como consequência, não como produto?**
+Frases que funcionam: "decidi liberar o mesmo [recurso] que eu utilizo", "esse é poderoso demais para caber aqui", "liberado 🔓 meta superada".
+Frases que convertem menos: "comenta para receber mais", "acessa o link da bio".
+
+**3. A promessa tem especificidade ou número?**
+"O mesmo script que eu uso para gerar desejo em minutos" > "uma ferramenta poderosa".
+"Lista de formas de se conectar sem vídeo" > "dicas de conteúdo".
+
+**4. A objeção principal do público foi quebrada antes do código?**
+O post que gerou a maior taxa de botão de todos os analisados (91%, 715 entradas) tinha slides dizendo explicitamente "não precisa de mega rotina nem de vídeo" antes de apresentar o código. Quem chegou ao direct já tinha a objeção removida.
+
+Se algum desses pontos estiver ausente: alertar e sugerir como ajustar o post antes de criar o fluxo. O fluxo mais bem estruturado não compensa um post que não preparou o terreno.
 
 ---
 
