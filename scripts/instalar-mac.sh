@@ -1,12 +1,12 @@
 #!/bin/bash
 # ============================================================
 # Instalador da Skill ManyChat Flow Writer — Triwer
-# Repositório: https://github.com/triwer/manychat-flow-writer
+# Repositório: https://github.com/paulovyn1/manychat-flow-writer
 # ============================================================
 
 set -e
 
-REPO_RAW="https://raw.githubusercontent.com/triwer/manychat-flow-writer/main/skill"
+REPO_RAW="https://raw.githubusercontent.com/paulovyn1/manychat-flow-writer/main/skill"
 INSTALL_DIR="$HOME/.claude/skills/manychat-flow-writer"
 REFERENCES_DIR="$INSTALL_DIR/references"
 
@@ -161,5 +161,5 @@ fi
 
 echo ""
 echo "💡 Instale também o ManyChat MCP para buscar IDs automaticamente:"
-echo "   curl -fsSL https://raw.githubusercontent.com/triwer/manychat-mcp/main/scripts/instalar-mac.sh | bash"
+echo "   curl -fsSL https://raw.githubusercontent.com/paulovyn1/manychat-mcp/main/scripts/instalar-mac.sh | bash"
 echo ""

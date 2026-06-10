@@ -13,7 +13,7 @@ Baseada na análise de fluxos reais do Triwer que geraram vendas e captações r
 - Gera roteiro de mensagens (para montar manualmente) ou JSON pronto para importar
 - Escreve na voz do seu personagem ou no seu próprio tom de voz
 - Rastreia interações com UTMs e lead score automaticamente
-- Integra com o [ManyChat MCP](https://github.com/triwer/manychat-mcp) para buscar e criar tags/campos sem sair do Claude
+- Integra com o [ManyChat MCP](https://github.com/paulovyn1/manychat-mcp) para buscar e criar tags/campos sem sair do Claude
 
 ---
 
@@ -22,13 +22,13 @@ Baseada na análise de fluxos reais do Triwer que geraram vendas e captações r
 ### Mac / Linux
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/triwer/manychat-flow-writer/main/scripts/instalar-mac.sh | bash
+curl -fsSL https://raw.githubusercontent.com/paulovyn1/manychat-flow-writer/main/scripts/instalar-mac.sh | bash
 ```
 
 ### Windows (PowerShell)
 
 ```powershell
-irm https://raw.githubusercontent.com/triwer/manychat-flow-writer/main/scripts/instalar-windows.ps1 | iex
+irm https://raw.githubusercontent.com/paulovyn1/manychat-flow-writer/main/scripts/instalar-windows.ps1 | iex
 ```
 
 O instalador:
@@ -90,10 +90,10 @@ Com o ManyChat MCP instalado, o Claude busca e cria tags e campos personalizados
 
 ```bash
 # Mac
-curl -fsSL https://raw.githubusercontent.com/triwer/manychat-mcp/main/scripts/instalar-mac.sh | bash
+curl -fsSL https://raw.githubusercontent.com/paulovyn1/manychat-mcp/main/scripts/instalar-mac.sh | bash
 
 # Windows
-irm https://raw.githubusercontent.com/triwer/manychat-mcp/main/scripts/instalar-windows.ps1 | iex
+irm https://raw.githubusercontent.com/paulovyn1/manychat-mcp/main/scripts/instalar-windows.ps1 | iex
 ```
 
 ---

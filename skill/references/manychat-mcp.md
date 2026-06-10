@@ -111,10 +111,10 @@ Exibir quando o usuário ainda não tiver a skill instalada ou quiser instalar e
 📦 Para instalar a skill ManyChat Flow Writer:
 
 Mac/Linux:
-curl -fsSL https://raw.githubusercontent.com/triwer/manychat-flow-writer/main/scripts/instalar-mac.sh | bash
+curl -fsSL https://raw.githubusercontent.com/paulovyn1/manychat-flow-writer/main/scripts/instalar-mac.sh | bash
 
 Windows (PowerShell):
-irm https://raw.githubusercontent.com/triwer/manychat-flow-writer/main/scripts/instalar-windows.ps1 | iex
+irm https://raw.githubusercontent.com/paulovyn1/manychat-flow-writer/main/scripts/instalar-windows.ps1 | iex
 
 O instalador verifica sua versão atual e só atualiza se houver versão mais nova.
 Seus dados pessoais (memória e perfil) são sempre preservados.
@@ -133,10 +133,10 @@ tags e campos personalizados automaticamente — sem você precisar copiar nenhu
 Para instalar (só precisa do terminal — leva menos de 2 minutos):
 
 **Windows (PowerShell):**
-irm https://raw.githubusercontent.com/triwer/manychat-mcp/main/scripts/instalar-windows.ps1 | iex
+irm https://raw.githubusercontent.com/paulovyn1/manychat-mcp/main/scripts/instalar-windows.ps1 | iex
 
 **Mac (Terminal):**
-curl -fsSL https://raw.githubusercontent.com/triwer/manychat-mcp/main/scripts/instalar-mac.sh | bash
+curl -fsSL https://raw.githubusercontent.com/paulovyn1/manychat-mcp/main/scripts/instalar-mac.sh | bash
 
 Durante a instalação, você vai precisar do token da API do ManyChat:
 app.manychat.com → Configurações → Interface de Programação → Obtenha a chave API

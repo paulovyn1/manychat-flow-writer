@@ -1,11 +1,11 @@
 # ============================================================
 # Instalador da Skill ManyChat Flow Writer — Triwer
-# Repositório: https://github.com/triwer/manychat-flow-writer
+# Repositório: https://github.com/paulovyn1/manychat-flow-writer
 # ============================================================
 
 $ErrorActionPreference = "Stop"
 
-$RepoRaw = "https://raw.githubusercontent.com/triwer/manychat-flow-writer/main/skill"
+$RepoRaw = "https://raw.githubusercontent.com/paulovyn1/manychat-flow-writer/main/skill"
 $InstallDir = Join-Path $env:USERPROFILE ".claude\skills\manychat-flow-writer"
 $ReferencesDir = Join-Path $InstallDir "references"
 
@@ -169,5 +169,5 @@ if ($Action -eq "instalar") {
 
 Write-Host ""
 Write-Host "💡 Instale também o ManyChat MCP para buscar IDs automaticamente:" -ForegroundColor Cyan
-Write-Host "   irm https://raw.githubusercontent.com/triwer/manychat-mcp/main/scripts/instalar-windows.ps1 | iex"
+Write-Host "   irm https://raw.githubusercontent.com/paulovyn1/manychat-mcp/main/scripts/instalar-windows.ps1 | iex"
 Write-Host ""
