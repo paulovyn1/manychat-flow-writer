@@ -3,7 +3,7 @@
 Skill para o Claude Desktop e Claude Code que cria fluxos de automação ManyChat para Instagram.  
 Baseada na análise de fluxos reais do Triwer que geraram vendas e captações rastreadas.
 
-**Versão atual:** 2.0.0
+**Versão atual:** 2.1.0
 
 ---
 
@@ -11,6 +11,8 @@ Baseada na análise de fluxos reais do Triwer que geraram vendas e captações r
 
 - Cria fluxos completos de venda e captação para ManyChat/Instagram
 - Gera roteiro de mensagens (para montar manualmente) ou JSON pronto para importar
+- Gera coleta de e-mail nativa com validação e opt-in automático
+- Valida tipos, UUIDs, conexões e coordenadas antes da importação
 - Escreve na voz do seu personagem ou no seu próprio tom de voz
 - Rastreia interações com UTMs e lead score automaticamente
 - Integra com o [ManyChat MCP](https://github.com/paulovyn1/manychat-mcp) para buscar e criar tags/campos sem sair do Claude
@@ -69,6 +71,8 @@ Se preferir instalar sem o script:
 ~/.claude/skills/manychat-flow-writer/
 ├── SKILL.md                          ← orquestrador principal
 ├── VERSION                           ← versão instalada
+├── scripts/
+│   └── validate-manychat-json.ps1    ← validador preventivo do JSON
 └── references/
     ├── user-profile.md               ← seu perfil e onboarding (pessoal)
     ├── user-memory.md                ← seus IDs e dados do ManyChat (pessoal)

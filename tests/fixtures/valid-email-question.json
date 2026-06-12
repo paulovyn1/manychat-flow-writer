@@ -1,0 +1,92 @@
+{
+  "ns": "SUBSTITUIR_PELO_NS_DO_FLUXO_ABERTO",
+  "client_id": "11111111-1111-4111-8111-111111111111",
+  "batch": {
+    "contents": [
+      {
+        "type": "instagram",
+        "_oid": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+        "namespace": "SUBSTITUIR_PELO_NS_DO_FLUXO_ABERTO",
+        "caption": "Coletar e-mail",
+        "removed": false,
+        "target": {
+          "_content_oid": "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb"
+        },
+        "quick_replies": {
+          "buttons": [],
+          "settings": {
+            "validation_message": null,
+            "skip_button_caption": null,
+            "limit_failed": null,
+            "timeout": null
+          }
+        },
+        "messages": [
+          {
+            "_oid": "cccccccc-cccc-4ccc-8ccc-cccccccccccc",
+            "type": "question",
+            "content": {
+              "text": "Qual e o seu melhor e-mail?"
+            },
+            "answer_method": "input",
+            "answer_type": "email",
+            "answer_replies": [],
+            "adapters": [
+              {
+                "type": "save_email_to_system_field"
+              },
+              {
+                "type": "set_email_optin"
+              }
+            ],
+            "validation_message": "Insira um e-mail valido, por exemplo: eu@mail.com",
+            "limit_failed": 4,
+            "question_answer_timeout": {
+              "unit": "hours",
+              "value": "12"
+            },
+            "success_target": null,
+            "timeout_target": null
+          }
+        ]
+      },
+      {
+        "type": "instagram",
+        "_oid": "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb",
+        "namespace": "SUBSTITUIR_PELO_NS_DO_FLUXO_ABERTO",
+        "caption": "Confirmacao",
+        "removed": false,
+        "target": null,
+        "quick_replies": {
+          "buttons": [],
+          "settings": {
+            "validation_message": null,
+            "skip_button_caption": null,
+            "limit_failed": null,
+            "timeout": null
+          }
+        },
+        "messages": [
+          {
+            "_oid": "dddddddd-dddd-4ddd-8ddd-dddddddddddd",
+            "type": "text",
+            "content": {
+              "text": "E-mail salvo."
+            },
+            "keyboard": []
+          }
+        ]
+      }
+    ]
+  },
+  "coordinates": {
+    "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa": {
+      "x": 0,
+      "y": 0
+    },
+    "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb": {
+      "x": 1400,
+      "y": 0
+    }
+  }
+}

@@ -20,9 +20,38 @@
 }
 ```
 
+Este é o **envelope de importação** que a skill deve entregar.
+
+Um arquivo exportado pelo ManyChat usa outro envelope:
+
+```text
+flow.draft_batch.contents
+flow.draft_coordinates
+```
+
+Exports servem para confirmar estruturas reais, mas não devem ser reutilizados integralmente. Eles podem conter blocos duplicados, itens com `removed: true`, IDs internos legados e grupos desconectados. Extraia apenas o padrão necessário e gere um grafo limpo no envelope de importação.
+
 ---
 
 ## Tipos de Blocos
+
+### Tipos permitidos
+
+Tipos externos de bloco:
+
+- `instagram`
+- `action_group`
+- `multi_condition`
+- `smart_delay`
+- `goto`
+
+Tipos internos em `instagram.messages`:
+
+- `text`
+- `delay`
+- `question`
+
+> **PROIBIDO:** nunca gerar bloco externo `type: "user_input"`. O parser do ManyChat rejeita esse tipo com `BatchParserUnknownContentTypeError`. Toda captura de resposta deve ser uma mensagem interna `question` dentro de um bloco externo `instagram`.
 
 ### 1. Bloco de Mensagem Instagram (`type: "instagram"`)
 
@@ -53,6 +82,116 @@ O primeiro `message` do bloco de saudação deve ser direto — sem `type: "dela
 Todos os demais blocos podem ter delays normalmente.
 
 **messages — tipos:**
+
+Pergunta de e-mail:
+
+```json
+{
+  "type": "instagram",
+  "_oid": "uuid-bloco-email",
+  "namespace": "SUBSTITUIR_PELO_NS_DO_FLUXO_ABERTO",
+  "caption": "Coletar e-mail",
+  "content_id": null,
+  "removed": false,
+  "target": { "_content_oid": "uuid-proximo-bloco" },
+  "private_reply": null,
+  "one_time_notify_reason_id": null,
+  "$fbMessagingType": "INSIDE_24_HOURS",
+  "quick_replies": {
+    "buttons": [],
+    "settings": {
+      "validation_message": null,
+      "skip_button_caption": null,
+      "limit_failed": null,
+      "timeout": null
+    }
+  },
+  "messages": [
+    {
+      "_oid": "uuid-pergunta-email",
+      "type": "question",
+      "content": {
+        "text": "Para isso eu vou precisar do seu e-mail. Manda aqui pra mim 👇🏻"
+      },
+      "answer_method": "input",
+      "answer_type": "email",
+      "answer_replies": [],
+      "adapters": [
+        { "type": "save_email_to_system_field" },
+        { "type": "set_email_optin" }
+      ],
+      "button_caption": "",
+      "validation_message": "Insira um endereço de e-mail válido, por exemplo: eu@mail.com",
+      "limit_failed": 4,
+      "question_answer_timeout": {
+        "unit": "hours",
+        "value": "12"
+      },
+      "skip_button_caption": "",
+      "telegram_share_phone_button_caption": "",
+      "success_target": null,
+      "timeout_target": null
+    }
+  ]
+}
+```
+
+Regras da coleta de e-mail:
+
+- usar `answer_method: "input"` e `answer_type: "email"`;
+- incluir **os dois** adapters: `save_email_to_system_field` e `set_email_optin`;
+- usar o `target` do bloco externo para continuar após resposta válida;
+- não criar `action_group` apenas para "salvar e-mail e avançar";
+- não pedir configuração manual quando o objetivo é salvar no campo nativo `email`;
+- `validation_message`, `limit_failed` e `question_answer_timeout` ficam na mensagem `question`, não em `quick_replies.settings`.
+
+Pergunta com respostas predefinidas:
+
+```json
+{
+  "_oid": "uuid-pergunta",
+  "type": "question",
+  "content": { "text": "Você quer trocar ou manter esse e-mail?" },
+  "answer_method": "reply",
+  "answer_type": "text",
+  "answer_replies": [
+    {
+      "_oid": "uuid-resposta-1",
+      "type": "answer",
+      "caption": "Quero trocar",
+      "value": "Quero trocar",
+      "emoji": null,
+      "image": null,
+      "is_smart_link": false
+    },
+    {
+      "_oid": "uuid-resposta-2",
+      "type": "answer",
+      "caption": "Quero manter esse",
+      "value": "Quero manter esse",
+      "emoji": null,
+      "image": null,
+      "is_smart_link": false
+    }
+  ],
+  "adapters": [
+    {
+      "type": "save_answer_to_custom_field",
+      "field_id": 123456
+    }
+  ],
+  "validation_message": "Selecione uma das opções abaixo.",
+  "limit_failed": 4,
+  "question_answer_timeout": {
+    "unit": "hours",
+    "value": "23"
+  },
+  "success_target": null,
+  "timeout_target": null
+}
+```
+
+`answer_replies` são respostas da própria pergunta e não substituem botões `keyboard` de navegação. Só use `save_answer_to_custom_field` quando o ID real do campo for conhecido.
 
 Delay (use em todos os blocos EXCETO o primeiro message do bloco de saudação):
 ```json
@@ -631,6 +770,26 @@ Todos os outros: `"private_reply": null`
 - [ ] Botões do CTA estão na última mensagem do bloco de pitch (não em bloco separado)
 - [ ] Nenhum bloco sem botões seguido imediatamente de outro bloco no array (causa target automático indesejado)
 - [ ] Smart Delay apenas em remarketing ou looping (nunca entre blocos sequenciais)
+- [ ] Nenhum bloco externo usa `type: "user_input"`
+- [ ] Toda captura de resposta usa mensagem interna `type: "question"` em bloco `instagram`
+- [ ] Toda pergunta de e-mail usa `answer_method: "input"` e `answer_type: "email"`
+- [ ] Toda pergunta de e-mail inclui `save_email_to_system_field` e `set_email_optin`
+- [ ] Nenhum bloco de ação foi criado apenas para salvar o e-mail nativo
+- [ ] Tipos externos e internos pertencem às listas permitidas
 - [ ] Todos os `_oid` são UUIDs v4 únicos
 - [ ] `ns` raiz e todos os `namespace` usam o placeholder
 - [ ] `coordinates` inclui todos os `_oid`
+- [ ] Nenhum bloco tem `removed: true`
+- [ ] Toda referência `_content_oid` aponta para um bloco ativo existente
+- [ ] Não há blocos duplicados ou desconectados por engano
+- [ ] O JSON foi validado pelo `scripts/validate-manychat-json.ps1` incluído nesta skill
+
+### Validação automática obrigatória
+
+Antes de entregar o arquivo, executar:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File CAMINHO_DA_SKILL/scripts/validate-manychat-json.ps1 -Path CAMINHO_DO_JSON
+```
+
+O resultado deve terminar em `VALID`. Avisos de blocos desconectados devem ser investigados; só podem permanecer quando o bloco for intencionalmente um ponto de entrada independente. Se houver qualquer `ERROR`, corrigir o JSON e validar novamente antes da entrega.

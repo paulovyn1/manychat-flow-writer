@@ -16,7 +16,7 @@ personalidade_configurada: false
 tipo_interlocutor: —
 nome_interlocutor: —
 skill_personalidade_path: —
-versao_skill: 2.0.0
+versao_skill: 2.1.0
 ```
 
 ---
@@ -137,5 +137,6 @@ personalidade_configurada: true
 
 | Versão | Data | Mudanças |
 |---|---|---|
+| 2.1.0 | 2026-06 | Coleta de e-mail nativa com `question`, adapters de campo e opt-in, proibição de `user_input` e validador preventivo de estrutura JSON |
 | 2.0.0 | 2025-05 | Onboarding, user-profile, user-memory, frameworks de captação e venda completos, regras de JSON corrigidas (conexões, smart delay, delay na saudação, condição de aluno), tracking UTMs + lead score, notify_admin email+telegram, subfluxo de apelido |
 | 1.0.0 | 2025-05 | Versão inicial — 5 fluxos de venda analisados, sun-personality, patterns-venda, copy-rules, json-format |

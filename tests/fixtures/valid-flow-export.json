@@ -1,0 +1,50 @@
+{
+  "flow": {
+    "ns": "content20260611184825_448504",
+    "draft_batch": {
+      "contents": [
+        {
+          "type": "instagram",
+          "_oid": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+          "namespace": "content20260611184825_448504",
+          "caption": "Coletar e-mail",
+          "removed": false,
+          "target": null,
+          "messages": [
+            {
+              "_oid": "cccccccc-cccc-4ccc-8ccc-cccccccccccc",
+              "type": "question",
+              "content": {
+                "text": "Qual e o seu e-mail?"
+              },
+              "answer_method": "input",
+              "answer_type": "email",
+              "answer_replies": [],
+              "adapters": [
+                {
+                  "type": "save_email_to_system_field"
+                },
+                {
+                  "type": "set_email_optin"
+                }
+              ],
+              "validation_message": "Insira um e-mail valido.",
+              "limit_failed": 4,
+              "question_answer_timeout": {
+                "unit": "hours",
+                "value": "12"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "draft_coordinates": {
+      "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa": {
+        "x": 0,
+        "y": 0
+      }
+    }
+  },
+  "state": {}
+}

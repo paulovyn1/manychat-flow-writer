@@ -16,6 +16,7 @@ $PersonalFiles = @("references\user-memory.md", "references\user-profile.md")
 $SkillFiles = @(
     "SKILL.md",
     "VERSION",
+    "scripts\validate-manychat-json.ps1",
     "references\sun-personality.md",
     "references\patterns-venda.md",
     "references\patterns-captacao.md",

@@ -1,0 +1,47 @@
+{
+  "ns": "SUBSTITUIR_PELO_NS_DO_FLUXO_ABERTO",
+  "client_id": "11111111-1111-4111-8111-111111111111",
+  "batch": {
+    "contents": [
+      {
+        "type": "instagram",
+        "_oid": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+        "namespace": "SUBSTITUIR_PELO_NS_DO_FLUXO_ABERTO",
+        "caption": "Coleta de e-mail (CONFIGURAR: salvar resposta)",
+        "removed": false,
+        "target": {
+          "_content_oid": "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb"
+        },
+        "messages": [
+          {
+            "_oid": "cccccccc-cccc-4ccc-8ccc-cccccccccccc",
+            "type": "text",
+            "content": {
+              "text": "Qual e o seu melhor e-mail?"
+            },
+            "keyboard": []
+          }
+        ]
+      },
+      {
+        "type": "action_group",
+        "_oid": "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb",
+        "namespace": "SUBSTITUIR_PELO_NS_DO_FLUXO_ABERTO",
+        "caption": "Salvar e-mail e avancar",
+        "removed": false,
+        "target": null,
+        "actions": []
+      }
+    ]
+  },
+  "coordinates": {
+    "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa": {
+      "x": 0,
+      "y": 0
+    },
+    "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb": {
+      "x": 1400,
+      "y": 0
+    }
+  }
+}

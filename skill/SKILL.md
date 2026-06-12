@@ -11,7 +11,7 @@ compatibility: claude.ai, Claude Desktop, Cowork, Claude Code
 ---
 
 # manychat-flow-writer
-**Versão:** 2.0.0 | Histórico completo em `references/user-profile.md`
+**Versão:** 2.1.0 | Histórico completo em `references/user-profile.md`
 
 Esta skill cria fluxos ManyChat com a voz do usuário, a lógica de funil validada em fluxos reais
 e as regras técnicas para geração de JSON importável.
@@ -285,6 +285,10 @@ JSON completo no formato patchDraft do ManyChat conforme `references/json-format
 - `ns` e todos os `namespace` usam `SUBSTITUIR_PELO_NS_DO_FLUXO_ABERTO`
 - Botões `content` têm `_content_oid` apontando para o `_oid` do bloco destino
 - Coordinates: ~1400px de espaçamento horizontal, ~800px vertical por ramificação
+- Captura de resposta usa mensagem interna `type: "question"` dentro de bloco `instagram`
+- Coleta de e-mail usa `answer_type: "email"` com adapters `save_email_to_system_field` e `set_email_optin`
+- Nunca gerar bloco externo `type: "user_input"`
+- Antes de entregar, localizar esta skill instalada e executar `scripts/validate-manychat-json.ps1` a partir do diretório dela; corrigir todo `ERROR`
 
 ---
 
@@ -304,6 +308,9 @@ JSON completo no formato patchDraft do ManyChat conforme `references/json-format
 12. **Nome do contato** — `{{cuf_8146798}}` em momentos estratégicos, não em toda frase
 13. **Subfluxo de apelido** — goto obrigatório em todo fluxo
 14. **Subfluxo reutilizável** — sugerir quando houver campanha com múltiplos posts
+15. **Coleta de resposta** — sempre `question` dentro de `instagram`; nunca `user_input`
+16. **Coleta de e-mail** — salvar automaticamente no campo nativo com os dois adapters obrigatórios
+17. **Validação estrutural** — nenhum JSON é entregue sem passar pelo validador
 
 ---
 
@@ -321,6 +328,10 @@ JSON completo no formato patchDraft do ManyChat conforme `references/json-format
 - ❌ Mais de 3 botões por bloco ou 2 botões pro mesmo destino quando há 3 caminhos
 - ❌ Smart delay entre blocos sequenciais onde a pessoa acabou de clicar
 - ❌ Google Sheets / público personalizado / webhook sem confirmação do usuário
+- ❌ Bloco externo `type: "user_input"`
+- ❌ Pergunta de e-mail como texto comum com orientação para configurar manualmente
+- ❌ `action_group` criado apenas para salvar e-mail no campo nativo
+- ❌ Entregar JSON com tipos desconhecidos, referências quebradas, UUIDs duplicados ou `removed: true`
 
 ---
 

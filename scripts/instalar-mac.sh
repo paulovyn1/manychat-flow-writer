@@ -17,6 +17,7 @@ PERSONAL_FILES=("references/user-memory.md" "references/user-profile.md")
 SKILL_FILES=(
   "SKILL.md"
   "VERSION"
+  "scripts/validate-manychat-json.ps1"
   "references/sun-personality.md"
   "references/patterns-venda.md"
   "references/patterns-captacao.md"
@@ -105,6 +106,7 @@ for file in "${SKILL_FILES[@]}"; do
   printf "   %-45s" "$file"
   URL="$REPO_RAW/$file"
   DEST="$INSTALL_DIR/$file"
+  mkdir -p "$(dirname "$DEST")"
   if curl -fsSL "$URL" -o "$DEST" 2>/dev/null; then
     echo "✓"
   else
