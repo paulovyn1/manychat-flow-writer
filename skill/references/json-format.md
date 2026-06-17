@@ -8,17 +8,17 @@
 
 ```json
 {
-  "ns": "SUBSTITUIR_PELO_NS_DO_FLUXO_ABERTO",
-  "client_id": "uuid-v4-aleatorio",
   "batch": {
     "contents": [...]
   },
   "coordinates": {
-    "uuid-do-bloco-1": { "x": 0, "y": 0 },
-    "uuid-do-bloco-2": { "x": 1400, "y": 0 }
+    "uuid-do-bloco-1": { "x": 1000, "y": 0 },
+    "uuid-do-bloco-2": { "x": 1800, "y": 0 }
   }
 }
 ```
+
+> ⚠️ **NÃO incluir `ns` nem `client_id` na raiz.** A extensão os gera automaticamente.
 
 Este é o **envelope de importação** que a skill deve entregar.
 
@@ -75,11 +75,13 @@ Tipos internos em `instagram.messages`:
 }
 ```
 
-**⚠️ BLOCO 1 (Saudação) — NUNCA incluir delay como primeiro message:**
-Fluxos disparados por comentário em post não permitem delay no primeiro bloco.
-O primeiro `message` do bloco de saudação deve ser direto — sem `type: "delay"` antes do texto.
+**⚠️ BLOCO 1 (Saudação) — Duas regras obrigatórias:**
 
-Todos os demais blocos podem ter delays normalmente.
+1. **Apenas 1 message no array** — todo o conteúdo (texto de boas-vindas + botão) deve estar em uma única mensagem `text`. Nunca separar em 2 messages distintas. O botão fica no `keyboard` dessa única mensagem.
+
+2. **Sem delay como primeiro message** — fluxos disparados por comentário não permitem delay no primeiro bloco.
+
+Todos os demais blocos podem ter múltiplos messages e delays normalmente.
 
 **messages — tipos:**
 
@@ -312,10 +314,12 @@ Unidades: `"minutes"`, `"hours"`, `"days"`
   "type": "goto", "_oid": "uuid",
   "namespace": "SUBSTITUIR_PELO_NS_DO_FLUXO_ABERTO",
   "caption": "Nome", "content_id": null, "removed": false,
-  "content_target": null,
+  "content_target": { "_content_oid": "uuid-primeiro-bloco-apos-goto" },
   "target": { "flow_ns": "namespace-do-subfluxo-destino" }
 }
 ```
+
+`content_target` aponta para o primeiro bloco de conteúdo após o goto (ex: B04). Nunca deixar `null` — sem esse campo o canvas fica desconectado e o subfluxo não sabe para onde retornar.
 
 ---
 
@@ -527,10 +531,12 @@ O subfluxo verifica se `cuf_8146798` está vazio e, se sim, solicita o apelido a
   "caption": "adicionar apelido",
   "content_id": null,
   "removed": false,
-  "content_target": null,
+  "content_target": { "_content_oid": "uuid-B04-primeiro-bloco-pos-goto" },
   "target": { "flow_ns": "SUBSTITUIR_NS_SUBFLUXO_APELIDO" }
 }
 ```
+
+`content_target` deve apontar para o OID do B04 (primeiro bloco de conteúdo após o goto). Substituir `uuid-B04-primeiro-bloco-pos-goto` pelo OID real do B04 ao gerar o JSON.
 
 O usuário precisará preencher `flow_ns` com o namespace do subfluxo de apelido na conta dele.
 Link para copiar o subfluxo com 1 clique:
@@ -618,31 +624,37 @@ Se o usuário fornecer o ID do campo, aí sim gerar normalmente com o ID real.
 
 ---
 
-### Regra 5 — Goto: `content_target: null` MAS nunca colocar o próximo bloco imediatamente após no array
+### Regra 5 — Goto: `content_target` deve apontar explicitamente para o primeiro bloco após o goto
 
-O bloco `goto` usa `target.flow_ns` para chamar um subfluxo externo. O campo `content_target` deve ser `null`.
-
-**PORÉM:** O ManyChat ao importar preenche automaticamente `content_target` com o `_oid` do próximo bloco no array `contents`. Isso faz o goto se conectar ao bloco seguinte — causando loop ou conexão indesejada.
-
-**Solução:** O bloco `goto` deve ser o **último elemento do array `contents`**. O bloco seguinte na lógica do fluxo (ex: B06 entrega da aula) deve vir antes do goto no array, nunca depois.
-
-Reorganizar a ordem no array para que blocos que vêm "após" o goto na lógica do fluxo apareçam antes dele no JSON:
+O bloco `goto` chama um subfluxo externo via `target.flow_ns`. Quando o subfluxo termina, o ManyChat continua a partir do `content_target` do goto — que deve apontar para B04 (primeiro bloco de conteúdo após o goto).
 
 ```json
-// ❌ ERRADO — B06 imediatamente após goto no array → ManyChat conecta automaticamente
+// ✅ CORRETO — content_target aponta para B04
+{
+  "type": "goto",
+  "_oid": "uuid-B03-goto",
+  "content_target": { "_content_oid": "uuid-B04" },
+  "target": { "flow_ns": "SUBSTITUIR_NS_SUBFLUXO_APELIDO" }
+}
+```
+
+**Atenção:** O ManyChat ao importar também preenche `content_target` automaticamente com o `_oid` do PRÓXIMO bloco no array `contents`. Para evitar conflito, o goto deve ser o **último elemento do array `contents`**. Blocos que vêm após o goto na lógica do fluxo devem aparecer ANTES dele no array.
+
+```json
+// ❌ ERRADO — B04 imediatamente após goto → ManyChat pode sobrescrever content_target
 "contents": [
-  { "_oid": "B05-goto", "type": "goto", "content_target": null },
-  { "_oid": "B06-entrega", "type": "instagram" }   // ← ManyChat liga B05 a B06 automaticamente
+  { "_oid": "B03-goto", "type": "goto", "content_target": { "_content_oid": "uuid-B04" } },
+  { "_oid": "B04", "type": "instagram" }
 ]
 
-// ✅ CORRETO — goto como último elemento do array
+// ✅ CORRETO — goto como último elemento; content_target explícito
 "contents": [
-  { "_oid": "B06-entrega", "type": "instagram" },   // ← vem antes no array
-  { "_oid": "B05-goto", "type": "goto", "content_target": null }  // ← último no array
+  { "_oid": "B04", "type": "instagram" },
+  { "_oid": "B03-goto", "type": "goto", "content_target": { "_content_oid": "uuid-B04" } }
 ]
 ```
 
-Nas `coordinates`, posicionar B05 antes de B06 no canvas para manter a lógica visual correta.
+Nas `coordinates`, posicionar o goto ANTES de B04 no canvas para a lógica visual ficar correta.
 
 ---
 
@@ -701,6 +713,26 @@ Quando um bloco `instagram` não tem nenhum botão em nenhuma das suas mensagens
 
 ---
 
+### Regra 8 — Botão de B01 aponta para B02 (ações de tracking), nunca para B04
+
+O botão do bloco de saudação (B01) deve sempre ligar ao bloco de ações de tracking (B02). B02 avança via `target` para B03 (goto de apelido). O goto retorna para B04 (primeiro conteúdo).
+
+❌ B01 button `_content_oid` → B04 (pula B02 e B03, tracking não executa)
+✅ B01 button `_content_oid` → B02 → B02 `target` → B03 goto → B03 `content_target` → B04
+
+---
+
+### Regra 9 — Captions de botões: máximo 20 caracteres
+
+O ManyChat limita a 20 caracteres o texto de cada botão (`caption` nos itens de `keyboard`). Contar incluindo espaços e emojis (emojis podem ocupar 1 ou 2 posições).
+
+❌ `"Pode, tô curioso(a) 🔥"` — 21 chars
+✅ `"Tô curioso(a)! 🔥"` — 18 chars
+
+Regra prática: se o caption passar de 17 caracteres visíveis, revisar e encurtar antes de gerar.
+
+---
+
 ## Regras de Smart Delay
 
 **✅ Usar:**
@@ -724,10 +756,22 @@ Quando um bloco `instagram` não tem nenhum botão em nenhuma das suas mensagens
 
 ## Regras de Coordenadas
 
-- Espaçamento horizontal entre blocos principais: ~1400px
-- Espaçamento vertical entre ramificações: ~800px
+- **Primeiro bloco começa em `x: 1000, y: 0`** — NUNCA usar x:0, pois o ManyChat reserva x:0 para o nó `startingStep` do canvas; blocos em x:0 ficam invisíveis empilhados sobre ele
+- Espaçamento horizontal entre blocos principais: ~700–800px
+- Espaçamento vertical entre ramificações: ~800–1000px
 - Caminho principal: `y: 0`
 - Ramificações: y negativo (acima) ou positivo (abaixo)
+
+Exemplo:
+```json
+"coordinates": {
+  "uuid-B01": { "x": 1000, "y": 0 },
+  "uuid-B02": { "x": 1800, "y": 0 },
+  "uuid-B03": { "x": 2600, "y": 0 },
+  "uuid-branch-cima": { "x": 3400, "y": -800 },
+  "uuid-branch-baixo": { "x": 3400, "y": 800 }
+}
+```
 
 ---
 
@@ -747,7 +791,11 @@ Todos os outros: `"private_reply": null`
 
 ## Checklist antes de entregar o JSON
 
+- [ ] Bloco de saudação (B01) tem EXATAMENTE 1 message no array (não 2 separadas)
 - [ ] Bloco de saudação sem delay como primeiro message
+- [ ] Botão de B01 aponta para B02 (ações de tracking), não para B04
+- [ ] Goto (B03) tem `content_target` apontando para B04 (nunca null)
+- [ ] Todos os botões (keyboard items) têm caption com ≤ 20 caracteres
 - [ ] Bloco "Ações #3" com UTMs + lead score logo após a saudação
 - [ ] utm_campaign, utm_medium, utm_content preenchidos (ou placeholders claros)
 - [ ] Lead score com +1 ponto na inicialização
